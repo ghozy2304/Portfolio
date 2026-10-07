@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: 'Cabinet Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Quiet Luxury Palette (Bright / Light Aesthetic) */
+  --color-luxury-bg: #F8F8F6;
+  --color-luxury-surface: #FFFFFF;
+  --color-luxury-surface-hover: #F2F1ED;
+  --color-luxury-border: rgba(140, 130, 117, 0.16);
+  --color-luxury-border-hover: rgba(140, 130, 117, 0.35);
+
+  --color-champagne: #B8A594;
+  --color-champagne-dark: #8C7B6B;
+  --color-champagne-light: #EFE9E4;
+  --color-champagne-glow: rgba(184, 165, 148, 0.2);
+  --color-taupe: #7D7366;
+  --color-obsidian: #1C1C1C;
+
+  --color-text-primary: #1C1C1C;
+  --color-text-muted: #6B6B70;
+  --color-text-faint: #9A9AA0;
+}
+
+/* Custom Base Resets */
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-luxury-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  scroll-behavior: auto; /* Handled smoothly by Lenis */
+}
+
+/* Lenis Recommended Smooth Scroll CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Quiet Luxury Glassmorphism & UI Accents (Light Edition) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(140, 130, 117, 0.16);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(184, 165, 148, 0.45);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 0 24px -4px rgba(184, 165, 148, 0.15);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Custom Scrollbar for Quiet Luxury Light */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F8F6;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 130, 117, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 130, 117, 0.45);
+}
