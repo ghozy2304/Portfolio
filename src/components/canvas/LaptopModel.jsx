@@ -38,12 +38,12 @@ export function LaptopModel({ scrollProgress = 0 }) {
   useEffect(() => {
     if (!scrollContainerRef.current) return;
     const el = scrollContainerRef.current;
-    if (scrollProgress <= 0.32) {
+    if (scrollProgress <= 0.37) {
       el.scrollTop = 0;
     } else if (scrollProgress >= 0.85) {
       el.scrollTop = el.scrollHeight - el.clientHeight;
     } else {
-      const ratio = (scrollProgress - 0.32) / 0.53;
+      const ratio = (scrollProgress - 0.37) / 0.58;
       el.scrollTop = ratio * (el.scrollHeight - el.clientHeight);
     }
   }, [scrollProgress]);

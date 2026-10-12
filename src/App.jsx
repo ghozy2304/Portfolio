@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useLenis } from './hooks/useLenis';
 import { Scene } from './components/canvas/Scene';
-import { Sparkles, ArrowDown, ChevronUp, Laptop } from 'lucide-react';
+import { Sparkles, ArrowDown, ChevronUp, Laptop, Globe } from 'lucide-react';
 import { personalInfo } from './data/portfolioData';
+import { DirectWeb } from './components/pages/DirectWeb';
 
-export function App() {
-  // Inisialisasi Lenis Smooth Scroll
-  useLenis();
-
-  // Kemajuan scroll (0.00 hingga 1.00)
-  const [scrollProgress, setScrollProgress] = useState(0);
+/**
+ * 3D Interactive MacBook Experience (Route: /)
+ */
+function MacBook3DExperience({ onNavigate, scrollProgress, setScrollProgress, isActive }) {
+  // Inisialisasi Lenis Smooth Scroll untuk mode 3D
+  useLenis(isActive);
 
   useEffect(() => {
+    if (!isActive) return;
+
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (totalScroll > 0) {
@@ -24,7 +27,7 @@ export function App() {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isActive, setScrollProgress]);
 
   // Penentuan teks fase panduan scroll
   const getStageInfo = () => {
@@ -40,8 +43,8 @@ export function App() {
         label: 'Zooming into Screen',
         desc: 'Kamera mendekati layar virtual...',
       };
-    } else if (scrollProgress < 0.85) {
-      const pct = Math.round(((scrollProgress - 0.35) / 0.50) * 100);
+    } else if (scrollProgress < 0.90) {
+      const pct = Math.min(100, Math.max(0, Math.round(((scrollProgress - 0.35) / 0.55) * 100)));
       return {
         stage: '03 / 04',
         label: `Exploring Portfolio (${pct}%)`,
@@ -59,10 +62,7 @@ export function App() {
   const stage = getStageInfo();
 
   return (
-    <main className="relative min-h-[550vh] bg-[#F8F8F6] text-[#1C1C1C] selection:bg-[#B8A594]/30">
-      {/* === LAYER 1: KANVAS 3D SINEMATIK (Fixed Background) === */}
-      <Scene scrollProgress={scrollProgress} />
-
+    <main className="relative min-h-[550vh] bg-transparent text-[#1C1C1C] selection:bg-[#B8A594]/30">
       {/* Ambient Lighting Decoration */}
       <div className="fixed top-1/4 -left-48 w-[450px] h-[450px] bg-[#B8A594]/10 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="fixed bottom-1/4 -right-48 w-[450px] h-[450px] bg-[#7D7366]/8 rounded-full blur-[140px] pointer-events-none z-0" />
@@ -83,17 +83,27 @@ export function App() {
             </span>
           </div>
 
-          {/* Quick Action */}
-          <div className="flex items-center gap-3">
+          {/* Quick Action Navigation */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Tombol Masuk ke View Layar Laptop */}
             <button
               onClick={() => {
                 const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
                 window.scrollTo({ top: totalScroll * 0.25, behavior: 'smooth' });
               }}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-xs tracking-wider uppercase text-[#1C1C1C] hover:border-[#B8A594]/60 transition-colors"
+              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-xs tracking-wider uppercase text-[#1C1C1C] hover:border-[#B8A594]/60 transition-colors"
             >
               <Laptop className="w-3.5 h-3.5 text-[#8C7B6B]" />
-              <span>Enter Screen View</span>
+              <span>Zoom Screen</span>
+            </button>
+
+            {/* Tombol Buka Web Langsung (/web) */}
+            <button
+              onClick={() => onNavigate('/web')}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#1C1C1C] text-[#F8F8F6] hover:bg-[#333338] transition-all duration-300 text-xs tracking-wider uppercase shadow-md hover:scale-105 active:scale-95"
+            >
+              <Globe className="w-3.5 h-3.5 text-[#B8A594]" />
+              <span>Direct Web (/web)</span>
             </button>
           </div>
         </div>
@@ -125,8 +135,8 @@ export function App() {
         </div>
       </div>
 
-      {/* Outro Modal Stage (Appears when scroll > 90%) */}
-      {scrollProgress > 0.88 && (
+      {/* Outro Modal Stage (Appears when scroll reaches the end) */}
+      {scrollProgress > 0.9999 && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-6 bg-black/20 backdrop-blur-xs pointer-events-auto animate-in fade-in duration-300">
           <div className="max-w-md p-8 rounded-3xl glass-panel shadow-2xl border border-[#B8A594]/40 text-center">
             <span className="text-xs uppercase tracking-widest text-[#8C7B6B] font-semibold mb-2 block">
@@ -136,19 +146,80 @@ export function App() {
               Thank You for Exploring.
             </h3>
             <p className="font-body text-xs text-[#6B6B70] leading-relaxed mb-6">
-              Laptop 3D telah menutup kembali secara penuh. Anda dapat membuka kembali ruang kerja portofolio kapan saja.
+              Laptop 3D telah menutup kembali secara penuh. Anda dapat membuka kembali ruang kerja 3D atau menjelajahi versi web standar layar penuh.
             </p>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="px-6 py-3 rounded-full bg-[#1C1C1C] text-[#F8F8F6] font-medium text-xs tracking-widest uppercase hover:bg-[#333338] transition-all duration-300 shadow-md flex items-center gap-2 mx-auto"
-            >
-              <ChevronUp className="w-4 h-4 text-[#B8A594]" />
-              <span>Reopen Workspace</span>
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-black/10 text-[#1C1C1C] font-medium text-xs tracking-widest uppercase hover:bg-black/5 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <ChevronUp className="w-4 h-4 text-[#8C7B6B]" />
+                <span>Reopen 3D</span>
+              </button>
+              <button
+                onClick={() => onNavigate('/web')}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#1C1C1C] text-[#F8F8F6] font-medium text-xs tracking-widest uppercase hover:bg-[#333338] transition-all duration-300 shadow-md flex items-center justify-center gap-2"
+              >
+                <Globe className="w-4 h-4 text-[#B8A594]" />
+                <span>Direct Web (/web)</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
     </main>
+  );
+}
+
+/**
+ * Root Router Component:
+ * - Route '/'    : Mode 3D Interaktif MacBook
+ * - Route '/web' : Mode Web Layar Penuh Langsung
+ */
+export function App() {
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const is3DMode = currentPath !== '/web' && currentPath !== '/web/';
+
+  const navigate = (path) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', path);
+      setCurrentPath(path);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  return (
+    <>
+      {/* === PERSISTENT 3D CANVAS LAYER === */}
+      {/* Canvas tetap hidup di memori; frameloop dipause saat di /web */}
+      <Scene scrollProgress={scrollProgress} isActive={is3DMode} />
+
+      {/* Mode 3D Experience (Track scroll 550vh & HUD Overlay) */}
+      <div className={is3DMode ? 'block' : 'hidden'}>
+        <MacBook3DExperience
+          onNavigate={navigate}
+          scrollProgress={scrollProgress}
+          setScrollProgress={setScrollProgress}
+          isActive={is3DMode}
+        />
+      </div>
+
+      {/* Mode Web Layar Penuh Langsung (/web) */}
+      {!is3DMode && <DirectWeb onNavigate={navigate} />}
+    </>
   );
 }
 

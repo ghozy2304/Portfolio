@@ -2,6 +2,9 @@
 
 Dokumen ini adalah **buku catatan teknis resmi** proyek portofolio 3D Anda. Setiap langkah, instalasi dependensi, perakitan aset 3D, koreografi scroll, crop gambar, dan pembaruan kode dicatat secara transparan di sini agar Anda memahaminya 100% dan siap menjawab pertanyaan wawancara kapan saja.
 
+> 📘 **Butuh panduan praktis untuk mengubah-ubah scroll, kamera, animasi, atau menambah model 3D baru?**  
+> Buka buku panduan lengkap: [**`PANDUAN_KUSTOMISASI_3D.md`**](file:///c:/Users/novit/Documents/portfolio/PANDUAN_KUSTOMISASI_3D.md).
+
 ---
 
 ## 1. 🛠️ Fondasi Proyek & Daftar Instalasi
@@ -76,17 +79,16 @@ Inilah alur interaktif yang Anda minta: **Seluruh konten website berada di DALAM
                                              │
                                              ▼
 +-----------------------------------------------------------------------------------------+
-| FASE 2: CAMERA ZOOM-IN KE LAYAR LAPTOP + KEYBOARD (Scroll 18% -> 35%)                   |
+| FASE 2: CAMERA ZOOM-IN MELUNCUR KE TENGAH LAYAR (Scroll 18% -> 35%)                     |
 | • Engsel laptop tetap terbuka stabil (105°).                                            |
-| • Kamera ZOOM-IN sinematik dari wide view [0, 1.65, 4.8] mendekat ke [0, 0.65, 3.35]    |
-|   sehingga bingkai layar virtual laptop memenuhi ~56% lebar viewport secara nyaman,    |
-|   dan jajaran keyboard chiclet yang menyala estetik terlihat di bagian bawah.          |
+| • Kamera ZOOM-IN sinematik meluncur tepat menuju titik tengah panel layar MacBook      |
+|   di koordinat [0, 1.65, 2.80] dengan target fokus [0, 0.75, -1.82].                    |
 +-----------------------------------------------------------------------------------------+
                                              │
                                              ▼
 +-----------------------------------------------------------------------------------------+
-| FASE 3: MENG-SCROLL WEBSITE DI DALAM LAYAR LAPTOP VIRTUAL (Scroll 35% -> 85%)          |
-| • Kamera locked di depan layar laptop dengan sudut pandang yang memperlihatkan keyboard.|
+| FASE 3: MENG-SCROLL WEBSITE DENGAN KAMERA TEPAT DI TENGAH LAYAR (Scroll 35% -> 85%)     |
+| • Kamera locked tepat di tengah-tengah layar laptop dengan simetri sempurna.            |
 | • Saat pengunjung memutar scroll wheel mouse, isi website DI DALAM layar laptop virtual |
 |   meng-scroll secara halus dari Hero -> About -> Case Study -> Skills -> Journey ->     |
 |   Contact -> Footer.                                                                    |

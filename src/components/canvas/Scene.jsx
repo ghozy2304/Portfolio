@@ -13,12 +13,18 @@ import { CameraRig } from './CameraRig';
  * - powerPreference: 'high-performance' untuk rendering GPU yang optimal.
  * - alpha: true agar background kanvas tembus pandang ke warna dasar CSS (#0c0c0e).
  */
-export function Scene({ scrollProgress = 0 }) {
+export function Scene({ scrollProgress = 0, isActive = true }) {
   return (
-    <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
+    <div
+      className={`fixed inset-0 w-full h-full pointer-events-none z-0 transition-opacity duration-300 ${
+        isActive ? 'opacity-100 visible' : 'opacity-0 invisible'
+      }`}
+      aria-hidden={!isActive}
+    >
       <Canvas
         camera={{ position: [0, 1.2, 5.6], fov: 42 }}
         dpr={[1, 1.8]}
+        frameloop={isActive ? 'always' : 'never'}
         gl={{
           antialias: true,
           alpha: true,

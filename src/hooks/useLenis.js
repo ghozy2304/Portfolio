@@ -7,10 +7,12 @@ import Lenis from 'lenis';
  * Fungsi: Mengaktifkan smooth scroll inertial kelas atas (seperti di website Apple & Awwwards).
  * Menghilangkan efek scroll yang kaku/patah-patah dari mouse wheel bawaan browser.
  */
-export function useLenis() {
+export function useLenis(enabled = true) {
   useEffect(() => {
+    if (!enabled) return;
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 2.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
@@ -32,5 +34,5 @@ export function useLenis() {
       cancelAnimationFrame(animationFrameId);
       lenis.destroy();
     };
-  }, []);
+  }, [enabled]);
 }
